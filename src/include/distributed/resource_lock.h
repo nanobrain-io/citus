@@ -13,6 +13,7 @@
 #include "postgres.h" /* IWYU pragma: keep */
 #include "c.h"
 
+#include "distributed/worker_transaction.h"
 #include "nodes/pg_list.h"
 #include "storage/lock.h"
 
@@ -84,8 +85,9 @@ extern void UnlockJobResource(uint64 jobId, LOCKMODE lockmode);
 extern void LockShardListMetadata(List *shardIntervalList, LOCKMODE lockMode);
 extern void LockShardsInPlacementListMetadata(List *shardPlacementList,
 											  LOCKMODE lockMode);
-extern void LockShardListResources(List *shardIntervalList, LOCKMODE lockMode);
+extern void SerializeNonCommutativeWrites(List *shardIntervalList, LOCKMODE lockMode);
 extern void LockRelationShardResources(List *relationShardList, LOCKMODE lockMode);
+extern List * GetSortedReferenceShardIntervals(List *relationList);
 
 /* Lock partitions of partitioned table */
 extern void LockPartitionsInRelationList(List *relationIdList, LOCKMODE lockmode);

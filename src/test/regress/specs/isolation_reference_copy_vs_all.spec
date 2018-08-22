@@ -5,6 +5,7 @@
 # create append distributed table to test behavior of COPY in concurrent operations
 setup
 {
+
 	SET citus.shard_replication_factor TO 1;
 	CREATE TABLE reference_copy(id integer, data text, int_data int);
 	SELECT create_reference_table('reference_copy');
