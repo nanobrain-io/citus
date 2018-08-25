@@ -195,8 +195,8 @@ get_all_active_transactions(PG_FUNCTION_ARGS)
 
 	int backendIndex = 0;
 
-	Datum values[5];
-	bool isNulls[5];
+	Datum values[6];
+	bool isNulls[6];
 
 	CheckCitusVersion(ERROR);
 
@@ -262,8 +262,9 @@ get_all_active_transactions(PG_FUNCTION_ARGS)
 		values[0] = ObjectIdGetDatum(currentBackend->databaseId);
 		values[1] = Int32GetDatum(ProcGlobal->allProcs[backendIndex].pid);
 		values[2] = Int32GetDatum(currentBackend->transactionId.initiatorNodeIdentifier);
-		values[3] = UInt64GetDatum(currentBackend->transactionId.transactionNumber);
-		values[4] = TimestampTzGetDatum(currentBackend->transactionId.timestamp);
+		values[3] = UInt64GetDatum(currentBackend->transactionId.transactionOriginator);
+		values[4] = UInt64GetDatum(currentBackend->transactionId.transactionNumber);
+		values[5] = TimestampTzGetDatum(currentBackend->transactionId.timestamp);
 
 		SpinLockRelease(&currentBackend->mutex);
 
